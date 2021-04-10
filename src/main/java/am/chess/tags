@@ -1,0 +1,134 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ANSI_GREEN	game/Game.java	/^    private static final String ANSI_GREEN = "\\u001B[32m";$/;"	f	class:Game	file:
+ANSI_RESET	game/Game.java	/^    private static final String ANSI_RESET = "\\u001B[0m";$/;"	f	class:Game	file:
+ANSI_YELLOW	game/Game.java	/^    private static final String ANSI_YELLOW = "\\u001B[33m";$/;"	f	class:Game	file:
+App	App.java	/^public class App {$/;"	c
+Bishop	pieces/Bishop.java	/^    public Bishop (String color, Position position) {$/;"	m	class:Bishop
+Bishop	pieces/Bishop.java	/^public class Bishop extends Piece {$/;"	c
+Board	board/Board.java	/^    public Board (Piece[][] board) {$/;"	m	class:Board
+Board	board/Board.java	/^public class Board {$/;"	c
+Empty	pieces/Empty.java	/^    public Empty(Position position) {$/;"	m	class:Empty
+Empty	pieces/Empty.java	/^public class Empty extends Piece {$/;"	c
+FillBoard	board/FillBoard.java	/^    public FillBoard(Piece[][] boardArr) {$/;"	m	class:FillBoard
+FillBoard	board/FillBoard.java	/^public class FillBoard {$/;"	c
+Game	game/Game.java	/^public class Game {$/;"	c
+King	pieces/King.java	/^    public King (String color, Position position) {$/;"	m	class:King
+King	pieces/King.java	/^public class King extends Piece {$/;"	c
+Knight	pieces/Knight.java	/^    public Knight (String color, Position position) {$/;"	m	class:Knight
+Knight	pieces/Knight.java	/^public class Knight extends Piece {$/;"	c
+Pawn	pieces/Pawn.java	/^    public Pawn (String color, Position position) {$/;"	m	class:Pawn
+Pawn	pieces/Pawn.java	/^public class Pawn extends Piece {$/;"	c
+Piece	pieces/Piece.java	/^    public Piece(char characterW, char characterB, String name, String color, Position position) {$/;"	m	class:Piece
+Piece	pieces/Piece.java	/^public abstract class Piece {$/;"	c
+Position	board/Position.java	/^    public Position(int x, int y) {$/;"	m	class:Position
+Position	board/Position.java	/^public class Position {$/;"	c
+Queen	pieces/Queen.java	/^    public Queen (String color, Position position) {$/;"	m	class:Queen
+Queen	pieces/Queen.java	/^public class Queen extends Piece {$/;"	c
+Rook	pieces/Rook.java	/^    public Rook (String color, Position position) {$/;"	m	class:Rook
+Rook	pieces/Rook.java	/^public class Rook extends Piece {$/;"	c
+am.chess	App.java	/^package am.chess;$/;"	p
+am.chess.board	board/Board.java	/^package am.chess.board;$/;"	p
+am.chess.board	board/FillBoard.java	/^package am.chess.board;$/;"	p
+am.chess.board	board/Position.java	/^package am.chess.board;$/;"	p
+am.chess.game	game/Game.java	/^package am.chess.game;$/;"	p
+am.chess.pieces	pieces/Bishop.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/Empty.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/King.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/Knight.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/Pawn.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/Piece.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/Queen.java	/^package am.chess.pieces;$/;"	p
+am.chess.pieces	pieces/Rook.java	/^package am.chess.pieces;$/;"	p
+askForXPosition	game/Game.java	/^    private int askForXPosition(String text) {$/;"	m	class:Game	file:
+askForYPosition	game/Game.java	/^    private int askForYPosition(String text) {$/;"	m	class:Game	file:
+bishop	pieces/Queen.java	/^    private final Bishop bishop;$/;"	f	class:Queen	file:
+blackPieces	board/FillBoard.java	/^    private final Piece[][] blackPieces = new Piece[8][8];$/;"	f	class:FillBoard	file:
+blackPlayersInit	board/FillBoard.java	/^    public void blackPlayersInit() {$/;"	m	class:FillBoard
+board	board/Board.java	/^    private final Piece[][] board;$/;"	f	class:Board	file:
+board	game/Game.java	/^    private final Board board = new Board(boardArr);$/;"	f	class:Game	file:
+boardArr	board/FillBoard.java	/^    private static Piece[][] boardArr;$/;"	f	class:FillBoard	file:
+boardArr	game/Game.java	/^    private final Piece[][] boardArr = new Piece[8][8];$/;"	f	class:Game	file:
+boardArr	pieces/Piece.java	/^    public static Piece[][] boardArr;$/;"	f	class:Piece
+boardImg	board/Board.java	/^    private final String[] boardImg = new String[10];$/;"	f	class:Board	file:
+changeOrder	game/Game.java	/^    private void changeOrder() {$/;"	m	class:Game	file:
+characterB	pieces/Piece.java	/^    private char characterB;$/;"	f	class:Piece	file:
+characterW	pieces/Piece.java	/^    private char characterW;$/;"	f	class:Piece	file:
+checkPositions	pieces/Rook.java	/^    private boolean checkPositions(Position currentPosition, Position newPosition) {$/;"	m	class:Rook	file:
+checkTurn	game/Game.java	/^    private boolean checkTurn(Piece figure) {$/;"	m	class:Game	file:
+color	pieces/Piece.java	/^    private String color;$/;"	f	class:Piece	file:
+connectPlayers	board/FillBoard.java	/^    public void connectPlayers() {$/;"	m	class:FillBoard
+currentPosition	pieces/Pawn.java	/^    private Position currentPosition;$/;"	f	class:Pawn	file:
+currentX	pieces/Rook.java	/^    private int currentX;$/;"	f	class:Rook	file:
+currentY	pieces/Rook.java	/^    private int currentY;$/;"	f	class:Rook	file:
+figureMove	pieces/Piece.java	/^    public static void figureMove(Position from, Position to, Piece piece) {$/;"	m	class:Piece
+fillBoard	game/Game.java	/^    private final FillBoard fillBoard = new FillBoard(boardArr);$/;"	f	class:Game	file:
+fillEmpties	board/FillBoard.java	/^    public void fillEmpties() {$/;"	m	class:FillBoard
+game	game/Game.java	/^    private boolean game = true;$/;"	f	class:Game	file:
+getAvailableMoves	pieces/Bishop.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:Bishop
+getAvailableMoves	pieces/Empty.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:Empty
+getAvailableMoves	pieces/King.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:King
+getAvailableMoves	pieces/Knight.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:Knight
+getAvailableMoves	pieces/Pawn.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:Pawn
+getAvailableMoves	pieces/Piece.java	/^    public abstract List<Position> getAvailableMoves();$/;"	m	class:Piece
+getAvailableMoves	pieces/Queen.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:Queen
+getAvailableMoves	pieces/Rook.java	/^    public List<Position> getAvailableMoves() {$/;"	m	class:Rook
+getBoard	board/Board.java	/^    public Piece[][] getBoard() {$/;"	m	class:Board
+getBoardArr	board/FillBoard.java	/^    public static Piece[][] getBoardArr() {$/;"	m	class:FillBoard
+getBoardImg	board/Board.java	/^    public String getBoardImg() {$/;"	m	class:Board
+getCharacterB	pieces/Piece.java	/^    public char getCharacterB() {$/;"	m	class:Piece
+getCharacterW	pieces/Piece.java	/^    public char getCharacterW() {$/;"	m	class:Piece
+getColor	pieces/Piece.java	/^    public String getColor() {$/;"	m	class:Piece
+getName	pieces/Piece.java	/^    public String getName() {$/;"	m	class:Piece
+getPosition	pieces/Piece.java	/^    public Position getPosition() {$/;"	m	class:Piece
+getX	board/Position.java	/^    public int getX() {$/;"	m	class:Position
+getY	board/Position.java	/^    public int getY() {$/;"	m	class:Position
+ifIncorrectMove	game/Game.java	/^    private void ifIncorrectMove(boolean incorrect) {$/;"	m	class:Game	file:
+init	board/Board.java	/^    public void init() {$/;"	m	class:Board
+initFigure	board/FillBoard.java	/^    private void initFigure(Piece[][] pieces, Piece piece, String className) {$/;"	m	class:FillBoard	file:
+isOtherFigureOnWay	pieces/Bishop.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:Bishop
+isOtherFigureOnWay	pieces/Empty.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:Empty
+isOtherFigureOnWay	pieces/King.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:King
+isOtherFigureOnWay	pieces/Knight.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:Knight
+isOtherFigureOnWay	pieces/Pawn.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:Pawn
+isOtherFigureOnWay	pieces/Piece.java	/^    public abstract boolean isOtherFigureOnWay(Position currentPosition, Position newPosition);$/;"	m	class:Piece
+isOtherFigureOnWay	pieces/Queen.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:Queen
+isOtherFigureOnWay	pieces/Rook.java	/^    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {$/;"	m	class:Rook
+isPositionFree	pieces/Piece.java	/^    public static byte isPositionFree(Position newPos, Piece piece) {$/;"	m	class:Piece
+iterate	pieces/Rook.java	/^    private boolean iterate(int from, int to, boolean isX) {$/;"	m	class:Rook	file:
+kingB	board/FillBoard.java	/^    public static Piece kingB;$/;"	f	class:FillBoard
+kingW	board/FillBoard.java	/^    public static Piece kingW;$/;"	f	class:FillBoard
+letterToNumber	pieces/Piece.java	/^    public static int letterToNumber(String letter) {$/;"	m	class:Piece
+lines_numbers	board/Board.java	/^    private final String[] lines_numbers = new String[8];$/;"	f	class:Board	file:
+main	App.java	/^    public static void main( String[] args ) {$/;"	m	class:App
+moveFigureIfAvailable	game/Game.java	/^    private void moveFigureIfAvailable(Position oldPosition, int x, int y, int newX, int newY) {$/;"	m	class:Game	file:
+name	pieces/Piece.java	/^    private String name;$/;"	f	class:Piece	file:
+newPosition	pieces/Pawn.java	/^    private Position newPosition;$/;"	f	class:Pawn	file:
+onDoubleStep	pieces/Pawn.java	/^    private boolean onDoubleStep(int step) {$/;"	m	class:Pawn	file:
+onOneStep	pieces/Pawn.java	/^    private boolean onOneStep(int step) {$/;"	m	class:Pawn	file:
+play	game/Game.java	/^    private void play() {$/;"	m	class:Game	file:
+position	pieces/Piece.java	/^    private Position position;$/;"	f	class:Piece	file:
+printInformation	game/Game.java	/^    private void printInformation(int x, int y, int newX, int newY) {$/;"	m	class:Game	file:
+printSuccess	game/Game.java	/^    private void printSuccess(String text) {$/;"	m	class:Game	file:
+printWarning	game/Game.java	/^    private void printWarning(String text) {$/;"	m	class:Game	file:
+refresh	board/Board.java	/^    public void refresh() {$/;"	m	class:Board
+rook	pieces/Queen.java	/^    private final Rook rook;$/;"	f	class:Queen	file:
+sc	game/Game.java	/^    private static final Scanner sc = new Scanner(System.in);$/;"	f	class:Game	file:
+setCharacterB	pieces/Piece.java	/^    public void setCharacterB(char characterB) {$/;"	m	class:Piece
+setCharacterW	pieces/Piece.java	/^    public void setCharacterW(char characterW) {$/;"	m	class:Piece
+setColor	pieces/Piece.java	/^    public void setColor(String color) {$/;"	m	class:Piece
+setName	pieces/Piece.java	/^    public void setName(String name) {$/;"	m	class:Piece
+setPosition	pieces/Piece.java	/^    public void setPosition(Position position) {$/;"	m	class:Piece
+setX	board/Position.java	/^    public void setX(int x) {$/;"	m	class:Position
+setY	board/Position.java	/^    public void setY(int y) {$/;"	m	class:Position
+start	game/Game.java	/^    public void start() {$/;"	m	class:Game
+turn	game/Game.java	/^    private String turn = "white";$/;"	f	class:Game	file:
+whitePieces	board/FillBoard.java	/^    private final Piece[][] whitePieces = new Piece[8][8];$/;"	f	class:FillBoard	file:
+whitePlayersInit	board/FillBoard.java	/^    public void whitePlayersInit() {$/;"	m	class:FillBoard
+winedColor	game/Game.java	/^    private String winedColor;$/;"	f	class:Game	file:
+x	board/Position.java	/^    private int x;$/;"	f	class:Position	file:
+y	board/Position.java	/^    private int y;$/;"	f	class:Position	file:
