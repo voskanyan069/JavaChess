@@ -28,6 +28,30 @@ public class Rook extends Piece {
                 positions.add(new Position(i, y));
             }
         }
+        for (int i = (y - 2); i >= 0; i--) {
+            if (!(boardArr[x - 1][i] instanceof Empty)) {
+                break;
+            }
+            boardArr[x - 1][i] = new Empty(new Position(x, i), '*');
+        }
+        for (int i = y; i < 8; i++) {
+            if (!(boardArr[x - 1][i] instanceof Empty)) {
+                break;
+            }
+            boardArr[x - 1][i] = new Empty(new Position(x, i), '*');
+        }
+        for (int i = (x - 2); i >= 0; i--) {
+            if (!(boardArr[i][y - 1] instanceof Empty)) {
+                break;
+            }
+            boardArr[i][y - 1] = new Empty(new Position(i, y), '*');
+        }
+        for (int i = x; i < 8; i++) {
+            if (!(boardArr[i][y - 1] instanceof Empty)) {
+                break;
+            }
+            boardArr[i][y - 1] = new Empty(new Position(i, y), '*');
+        }
         return positions;
     }
 
