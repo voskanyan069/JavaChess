@@ -3,6 +3,9 @@ package am.chess.board;
 import am.chess.pieces.*;
 import am.chess.properties.PieceColor;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class FillBoard {
     private final Piece[][] whitePieces = new Piece[8][8];
     private final Piece[][] blackPieces = new Piece[8][8];
@@ -32,16 +35,16 @@ public class FillBoard {
             pawnsW[i] = new Pawn(PieceColor.WHITE, new Position(2, i + 1));
         }
 
-        initFigure(whitePieces, kingW, "king");
-        initFigure(whitePieces, queenW, "queen");
-        initFigure(whitePieces, rooksW[0], "rook");
-        initFigure(whitePieces, rooksW[1], "rook");
-        initFigure(whitePieces, knightsW[0], "knight");
-        initFigure(whitePieces, knightsW[1], "knight");
-        initFigure(whitePieces, bishopsW[0], "bishop");
-        initFigure(whitePieces, bishopsW[1], "bishop");
+        initFigure(whitePieces, kingW);
+        initFigure(whitePieces, queenW);
+        initFigure(whitePieces, rooksW[0]);
+        initFigure(whitePieces, rooksW[1]);
+        initFigure(whitePieces, knightsW[0]);
+        initFigure(whitePieces, knightsW[1]);
+        initFigure(whitePieces, bishopsW[0]);
+        initFigure(whitePieces, bishopsW[1]);
         for (Piece pawn : pawnsW) {
-            initFigure(whitePieces, pawn, "pawn");
+            initFigure(whitePieces, pawn);
         }
     }
 
@@ -62,47 +65,27 @@ public class FillBoard {
             pawnsB[i] = new Pawn(PieceColor.BLACK, new Position(7, i + 1));
         }
 
-        initFigure(blackPieces, kingB, "king");
-        initFigure(blackPieces, queenB, "queen");
-        initFigure(blackPieces, rooksB[0], "rook");
-        initFigure(blackPieces, rooksB[1], "rook");
-        initFigure(blackPieces, knightsB[0], "knight");
-        initFigure(blackPieces, knightsB[1], "knight");
-        initFigure(blackPieces, bishopsB[0], "bishop");
-        initFigure(blackPieces, bishopsB[1], "bishop");
+        initFigure(blackPieces, kingB);
+        initFigure(blackPieces, queenB);
+        initFigure(blackPieces, rooksB[0]);
+        initFigure(blackPieces, rooksB[1]);
+        initFigure(blackPieces, knightsB[0]);
+        initFigure(blackPieces, knightsB[1]);
+        initFigure(blackPieces, bishopsB[0]);
+        initFigure(blackPieces, bishopsB[1]);
         for (Piece pawn : pawnsB) {
-            initFigure(blackPieces, pawn, "pawn");
+            initFigure(blackPieces, pawn);
         }
     }
 
-    private void initFigure(Piece[][] pieces, Piece piece, String className) {
-        Position thisFigurePosition = new Position(piece.getPosition().getX(), piece.getPosition().getY());
-        switch (className) {
-            case "king":
-                pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] =
-                        new King(piece.getColor(), thisFigurePosition);
-                break;
-            case "queen":
-                pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] =
-                        new Queen(piece.getColor(), thisFigurePosition);
-                break;
-            case "rook":
-                pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] =
-                        new Rook(piece.getColor(), thisFigurePosition);
-                break;
-            case "knight":
-                pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] =
-                        new Knight(piece.getColor(), thisFigurePosition);
-                break;
-            case "bishop":
-                pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] =
-                        new Bishop(piece.getColor(), thisFigurePosition);
-                break;
-            case "pawn":
-                pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] =
-                        new Pawn(piece.getColor(), thisFigurePosition);
-                break;
-        };
+    private void initFigure(Piece[][] pieces, Piece piece) {
+        try {
+            Class<Piece> pieceClass = (Class<Piece>) Class.forName(piece.getClass().getName());
+            Constructor<Piece> pieceConstructor = pieceClass.getConstructor(PieceColor.class, Position.class);
+            Piece thisPiece = pieceConstructor.newInstance(piece.getColor(), piece.getPosition());
+            pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] = thisPiece;
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
+                IllegalAccessException | InvocationTargetException ignored) {}
     }
 
     public void fillEmpties() {
