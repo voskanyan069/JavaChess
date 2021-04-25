@@ -35,9 +35,9 @@ public abstract class Piece {
     public static byte isPositionFree(Position newPos, Piece piece) {
         if (boardArr[newPos.getX() - 1][newPos.getY() - 1] instanceof Empty) {
             return 0;
-        } else if (!boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor().equals(piece.getColor())) {
+        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor() != piece.getColor()) {
             return 1;
-        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor().equals(piece.getColor())){
+        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor() == piece.getColor()) {
             return 2;
         }
         return 9;
