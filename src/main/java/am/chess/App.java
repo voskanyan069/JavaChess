@@ -5,7 +5,7 @@ import am.chess.game.Game;
 /*
  * TODO: Difference print of eatable piece on show available moves time
  * TODO: Checkmate check
- * TODO: "Shax"
+ * TODO: Shax
 */
 
 public class App {
