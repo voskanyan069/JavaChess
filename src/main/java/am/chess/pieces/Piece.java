@@ -44,29 +44,21 @@ public abstract class Piece {
     }
 
     public static int letterToNumber(String letter) {
-        switch (letter) {
-            case "A":
+        switch (letter.toLowerCase()) {
             case "a":
                 return 1;
-            case "B":
             case "b":
                 return 2;
-            case "C":
             case "c":
                 return 3;
-            case "D":
             case "d":
                 return 4;
-            case "E":
             case "e":
                 return 5;
-            case "F":
             case "f":
                 return 6;
-            case "G":
             case "g":
                 return 7;
-            case "H":
             case "h":
                 return 8;
             default:
