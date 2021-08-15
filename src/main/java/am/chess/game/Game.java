@@ -17,7 +17,7 @@ public class Game {
     private final Board board = new Board(boardArr);
     private final FillBoard fillBoard = new FillBoard(boardArr);
     private boolean game = true;
-    private String winedColor;
+    private String winnerColor;
     private PieceColor turn = PieceColor.WHITE;
 
     public void start() {
@@ -53,23 +53,29 @@ public class Game {
                 incorrectPosition = false;
             }
         } while (incorrectPosition);
-        thisFigure.getAvailableMoves();
-        board.refresh();
-        int newY = askForYPosition("New");
-        int newX = askForXPosition("New");
-        Position oldPosition = new Position(x, y);
-        Position newPosition = new Position(newX, newY);
-        if (thisFigure.isOtherFigureOnWay(oldPosition, newPosition)) {
-            ColorPrint.printWarning("ANOTHER FIGURE IS DECLARED ON THE WAY");
-            play();
-        } else {
-            moveFigureIfAvailable(oldPosition, x, y, newX, newY);
-            if (game) {
-                play();
-            } else {
-                ColorPrint.printSuccess(winedColor + " WIN!!!");
-            }
-        }
+		List<Position> figureAvailableMoves = thisFigure.getAvailableMoves();
+		if (figureAvailableMoves.size() == 0) {
+			board.refresh();
+			ColorPrint.printWarning("NOT AVAILABLE POSITIONS TO MOVE FOR THIS FIGURE");
+		} else {
+			board.refresh();
+			int newY = askForYPosition("New");
+			int newX = askForXPosition("New");
+			Position oldPosition = new Position(x, y);
+			Position newPosition = new Position(newX, newY);
+			if (thisFigure.isOtherFigureOnWay(oldPosition, newPosition)) {
+				fillBoard.fillEmpties();
+				board.refresh();
+				ColorPrint.printWarning("ANOTHER FIGURE IS DECLARED ON THE WAY");
+			} else {
+				moveFigureIfAvailable(oldPosition, x, y, newX, newY);
+				if (!game) {
+					ColorPrint.printSuccess(winnerColor + " WON!!!");
+					return;
+				}
+			}
+		}
+		play();
     }
 
     private void moveFigureIfAvailable(Position oldPosition, int x, int y, int newX, int newY) {
@@ -88,25 +94,29 @@ public class Game {
                         if (FillBoard.kingB.getPosition().getX() == newX &&
                                 FillBoard.kingB.getPosition().getY() == newY) {
                             game = false;
-                            winedColor = "WHITE'S";
+                            winnerColor = "WHITE'S";
                         }
                     } else if (thisFigure.getColor() == PieceColor.BLACK) {
                         if (FillBoard.kingW.getPosition().getX() == newX &&
                                 FillBoard.kingW.getPosition().getY() == newY) {
                             game = false;
-                            winedColor = "BLACK'S";
+                            winnerColor = "BLACK'S";
                         }
                     }
                     Piece.figureMove(oldPosition, new Position(newX, newY), boardArr[x - 1][y - 1]);
                     changeOrder();
                 } else if (isPositionFree == 2) {
-                    ColorPrint.printWarning("THE POSITION IS A BUSY");
+					fillBoard.fillEmpties();
+					board.refresh();
+					ColorPrint.printWarning("THE POSITION IS A BUSY");
                 }
                 incorrectPosition = false;
                 break;
             }
         }
-        if (incorrectPosition) {
+		if (incorrectPosition) {
+			fillBoard.fillEmpties();
+			board.refresh();
             ColorPrint.printWarning("INCORRECT POSITION");
         }
     }
@@ -116,11 +126,11 @@ public class Game {
     }
 
     private void changeOrder() {
-//        if (turn == PieceColor.WHITE) {
-//            turn = PieceColor.BLACK;
-//        } else if (turn == PieceColor.BLACK) {
-//            turn = PieceColor.WHITE;
-//        }
+        if (turn == PieceColor.WHITE) {
+            turn = PieceColor.BLACK;
+        } else if (turn == PieceColor.BLACK) {
+            turn = PieceColor.WHITE;
+        }
     }
 
     private int askForXPosition(String text) {
