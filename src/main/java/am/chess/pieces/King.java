@@ -66,11 +66,13 @@ public class King extends Piece {
     public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {
         for (int i = newPosition.getX() - 1; i < newPosition.getX() + 2; i++) {
             for (int j = newPosition.getY() - 1; j < newPosition.getY() + 2; j++) {
-                if (boardArr[i][j] instanceof King) {
-                    if (!this.getColor().equals(boardArr[i][j].getColor())) {
-                        return true;
-                    }
-                }
+				if ((i > 0 && i < 8) && (j > 0 && j < 8)) {
+					if (boardArr[i][j] instanceof King) {
+						if (!this.getColor().equals(boardArr[i][j].getColor())) {
+							return true;
+						}
+					}
+				}
             }
         }
         return false;

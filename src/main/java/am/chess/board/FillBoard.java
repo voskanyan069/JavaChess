@@ -111,4 +111,20 @@ public class FillBoard {
             }
         }
     }
+
+	public Piece[][] getWhitePieces() {
+		return whitePieces;
+	}
+
+	public Piece[][] getBlackPieces() {
+		return blackPieces;
+	}
+
+	public static void setKingPosition(PieceColor color, int x, int y) {
+		if (color == PieceColor.WHITE) {
+			kingW.setPosition(new Position(x, y));
+		} else {
+			kingB.setPosition(new Position(x, y));
+		}
+	}
 }

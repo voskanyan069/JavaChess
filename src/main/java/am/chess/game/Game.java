@@ -4,6 +4,7 @@ import am.chess.board.Board;
 import am.chess.board.FillBoard;
 import am.chess.board.Position;
 import am.chess.pieces.Empty;
+import am.chess.pieces.King;
 import am.chess.pieces.Piece;
 import am.chess.properties.PieceColor;
 
@@ -18,6 +19,7 @@ public class Game {
     private final FillBoard fillBoard = new FillBoard(boardArr);
     private boolean game = true;
     private String winnerColor;
+	private PieceColor kingCheck;
     private PieceColor turn = PieceColor.WHITE;
 
     public void start() {
@@ -35,24 +37,29 @@ public class Game {
         Piece.boardArr = boardArr;
         int x;
         int y;
-        Piece thisFigure;
-        boolean incorrectPosition;
-        do {
-            y = askForYPosition("Current");
-            x = askForXPosition("Current");
-            thisFigure = boardArr[x - 1][y - 1];
-            if (thisFigure instanceof Empty) {
-                board.refresh();
-                incorrectPosition = true;
-                ColorPrint.printWarning("YOUR ENTERED POSITION IS EMPTY");
-            } else if (!checkTurn(thisFigure)) {
-                board.refresh();
-                incorrectPosition = true;
-                ColorPrint.printWarning("NOT YOUR TURN");
-            } else {
-                incorrectPosition = false;
-            }
-        } while (incorrectPosition);
+		Piece thisFigure;
+		boolean incorrectPosition;
+		PieceColor kingAttacks = checkKingsAttack();
+		if (kingAttacks != PieceColor.NONE) {
+			ColorPrint.printWarning("PLEASE CHECK THE KING [" + kingAttacks.toString() + "]");
+		}
+
+		do {
+			y = askForYPosition("Current");
+			x = askForXPosition("Current");
+			thisFigure = boardArr[x - 1][y - 1];
+			if (thisFigure instanceof Empty) {
+				board.refresh();
+				incorrectPosition = true;
+				ColorPrint.printWarning("YOUR ENTERED POSITION IS EMPTY");
+			} else if (!checkTurn(thisFigure)) {
+				board.refresh();
+				incorrectPosition = true;
+				ColorPrint.printWarning("NOT YOUR TURN");
+			} else {
+				incorrectPosition = false;
+			}
+		} while (incorrectPosition);
 		List<Position> figureAvailableMoves = thisFigure.getAvailableMoves();
 		if (figureAvailableMoves.size() == 0) {
 			board.refresh();
@@ -78,6 +85,38 @@ public class Game {
 		play();
     }
 
+	private PieceColor checkKingsAttack() {
+		Piece[][] whitePieces = fillBoard.getWhitePieces();
+		Piece[][] blackPieces = fillBoard.getBlackPieces();
+		boolean whiteCheck = checkAttaks(whitePieces, FillBoard.kingB.getPosition());
+		boolean blackCheck = checkAttaks(blackPieces, FillBoard.kingW.getPosition());
+		PieceColor retValue = whiteCheck ? PieceColor.BLACK :
+			blackCheck ? PieceColor.WHITE :
+			PieceColor.NONE;
+
+		fillBoard.fillEmpties();
+		return retValue; 
+	}
+
+	private boolean checkAttaks(Piece[][] pieces, Position kingPos) {
+		for (int i = 0; i < pieces.length; i++) {
+			for (int j = 0; j < pieces[i].length; j++) {
+				Piece thisPiece = pieces[i][j];
+				if(!(thisPiece instanceof Empty) && thisPiece != null) {
+					List<Position> availablePositions = thisPiece.getAvailableMoves();
+					for (Position position : availablePositions) {
+						if (position.getX() == kingPos.getX()) {
+							if (position.getY() == kingPos.getY()) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
     private void moveFigureIfAvailable(Position oldPosition, int x, int y, int newX, int newY) {
         List<Position> availablePositions = boardArr[x - 1][y - 1].getAvailableMoves();
         Piece thisFigure = boardArr[x - 1][y - 1];
@@ -88,6 +127,10 @@ public class Game {
                 byte isPositionFree = Piece.isPositionFree(new Position(newX, newY), boardArr[x - 1][y - 1]);
                 if (isPositionFree == 0) {
                     Piece.figureMove(oldPosition, new Position(newX, newY), boardArr[x - 1][y - 1]);
+					Piece figure = boardArr[newX - 1][newY - 1];
+					if (figure instanceof King) {
+						FillBoard.setKingPosition(figure.getColor(), newX, newY);
+					}
                     changeOrder();
                 } else if (isPositionFree == 1) {
                     if (thisFigure.getColor() == PieceColor.WHITE) {
@@ -126,7 +169,7 @@ public class Game {
     }
 
     private void changeOrder() {
-        if (turn == PieceColor.WHITE) {
+		if (turn == PieceColor.WHITE) {
             turn = PieceColor.BLACK;
         } else if (turn == PieceColor.BLACK) {
             turn = PieceColor.WHITE;
