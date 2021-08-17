@@ -28,12 +28,12 @@ public class Queen extends Piece {
     }
 
     @Override
-    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {
+    public boolean isOtherFigureOnWay(Position currentPosition,
+			Position newPosition) {
         if (currentPosition.getX() == newPosition.getX() ||
                 currentPosition.getY() == newPosition.getY()) {
             return rook.isOtherFigureOnWay(currentPosition, newPosition);
         }
         return bishop.isOtherFigureOnWay(currentPosition, newPosition);
     }
-
 }

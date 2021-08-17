@@ -23,11 +23,13 @@ public class Bishop extends Piece {
                 break;
             }
             if (!(boardArr[x + i - 1][y + i - 1] instanceof Empty)) {
-                if (this.getColor() == boardArr[x + i - 1][y + i - 1].getColor()) {
+                if (this.getColor() ==
+						boardArr[x + i - 1][y + i - 1].getColor()) {
                     break;
                 }
             } else {
-                boardArr[x + i - 1][y + i - 1] = new Empty(new Position(x + i, y + i), '*');
+                boardArr[x + i - 1][y + i - 1] =
+					new Empty(new Position(x + i, y + i), '*');
             }
             positions.add(new Position(x + i, y + i));
         }
@@ -36,11 +38,13 @@ public class Bishop extends Piece {
                 break;
             }
             if (!(boardArr[x + i - 1][y - i - 1] instanceof Empty)) {
-                if (this.getColor() == boardArr[x + i - 1][y - i - 1].getColor()) {
+                if (this.getColor() ==
+						boardArr[x + i - 1][y - i - 1].getColor()) {
                     break;
                 }
             } else {
-                boardArr[x + i - 1][y - i - 1] = new Empty(new Position(x + i, y - i), '*');
+                boardArr[x + i - 1][y - i - 1] =
+					new Empty(new Position(x + i, y - i), '*');
             }
             positions.add(new Position(x + i, y - i));
         }
@@ -49,11 +53,13 @@ public class Bishop extends Piece {
                 break;
             }
             if (!(boardArr[x - i - 1][y + i - 1] instanceof Empty)) {
-                if (this.getColor() == boardArr[x - i - 1][y + i - 1].getColor()) {
+                if (this.getColor() ==
+						boardArr[x - i - 1][y + i - 1].getColor()) {
                     break;
                 }
             } else {
-                boardArr[x - i - 1][y + i - 1] = new Empty(new Position(x - i, y + i), '*');
+                boardArr[x - i - 1][y + i - 1] =
+					new Empty(new Position(x - i, y + i), '*');
             }
             positions.add(new Position(x - i, y + i));
         }
@@ -62,11 +68,13 @@ public class Bishop extends Piece {
                 break;
             }
             if (!(boardArr[x - i - 1][y - i - 1] instanceof Empty)) {
-                if (this.getColor() == boardArr[x - i - 1][y - i - 1].getColor()) {
+                if (this.getColor() ==
+						boardArr[x - i - 1][y - i - 1].getColor()) {
                     break;
                 }
             } else {
-                boardArr[x - i - 1][y - i - 1] = new Empty(new Position(x - i, y - i), '*');
+                boardArr[x - i - 1][y - i - 1] =
+					new Empty(new Position(x - i, y - i), '*');
             }
             positions.add(new Position(x - i, y - i));
         }
@@ -74,7 +82,8 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {
+    public boolean isOtherFigureOnWay(Position currentPosition,
+			Position newPosition) {
         int[] steps = new int[2];
 
         if (currentPosition.getY() > newPosition.getY()) {
@@ -93,8 +102,9 @@ public class Bishop extends Piece {
             }
         }
 
-        int stepsCount = Math.max(Math.abs(currentPosition.getX() - newPosition.getX()),
-                Math.abs(currentPosition.getY() - newPosition.getY()));
+        int stepsCount = Math.max(Math.abs(currentPosition.getX() -
+					newPosition.getX()), Math.abs(currentPosition.getY() -
+					newPosition.getY()));
 
         int x = currentPosition.getX() + steps[1];
         int y = currentPosition.getY() + steps[0];

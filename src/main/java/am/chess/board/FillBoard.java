@@ -80,13 +80,18 @@ public class FillBoard {
 
     private void initFigure(Piece[][] pieces, Piece piece) {
         try {
-            Class<Piece> pieceClass = (Class<Piece>) Class.forName(piece.getClass().getName());
-            Constructor<Piece> pieceConstructor = pieceClass.getConstructor(PieceColor.class, Position.class);
-            Piece thisPiece = pieceConstructor.newInstance(piece.getColor(), piece.getPosition());
-            pieces[piece.getPosition().getX() - 1][piece.getPosition().getY() - 1] = thisPiece;
-        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException |
-                IllegalAccessException | InvocationTargetException ignored) {}
-    }
+            Class<Piece> pieceClass = (Class<Piece>)
+				Class.forName(piece.getClass().getName());
+            Constructor<Piece> pieceConstructor =
+				pieceClass.getConstructor(PieceColor.class, Position.class);
+			Piece thisPiece = pieceConstructor.newInstance(piece.getColor(),
+					piece.getPosition());
+			pieces[piece.getPosition().getX() - 1]
+				[piece.getPosition().getY() - 1] = thisPiece;
+		} catch (ClassNotFoundException | NoSuchMethodException |
+				InstantiationException | IllegalAccessException |
+				InvocationTargetException ignored) {}
+	}
 
     public void fillEmpties() {
         for (int i = 0; i < boardArr.length; i++) {

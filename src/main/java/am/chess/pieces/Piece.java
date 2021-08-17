@@ -15,7 +15,8 @@ public abstract class Piece {
     public static Piece[][] boardArr;
     public static Board board;
 
-    public Piece(char characterW, char characterB, PieceColor color, Position position) {
+    public Piece(char characterW, char characterB, PieceColor color,
+			Position position) {
         this.characterW = characterW;
         this.characterB = characterB;
         this.color = color;
@@ -30,14 +31,17 @@ public abstract class Piece {
 
     public abstract List<Position> getAvailableMoves();
 
-    public abstract boolean isOtherFigureOnWay(Position currentPosition, Position newPosition);
+    public abstract boolean isOtherFigureOnWay(Position currentPosition,
+			Position newPosition);
 
     public static byte isPositionFree(Position newPos, Piece piece) {
         if (boardArr[newPos.getX() - 1][newPos.getY() - 1] instanceof Empty) {
             return 0;
-        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor() != piece.getColor()) {
+        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor() !=
+				piece.getColor()) {
             return 1;
-        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor() == piece.getColor()) {
+        } else if (boardArr[newPos.getX() - 1][newPos.getY() - 1].getColor() ==
+				piece.getColor()) {
             return 2;
         }
         return 9;

@@ -21,8 +21,8 @@ public class Empty extends Piece {
     }
 
     @Override
-    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {
+    public boolean isOtherFigureOnWay(Position currentPosition,
+			Position newPosition) {
         return false;
     }
-
 }

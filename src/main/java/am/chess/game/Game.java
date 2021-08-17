@@ -38,7 +38,8 @@ public class Game {
 		Piece.boardArr = boardArr;
 		checkKingsAttack();
 		if (kingCheck != PieceColor.NONE) {
-			ColorPrint.printWarning("PLEASE CHECK THE KING [" + kingCheck.toString() + "]");
+			ColorPrint.printWarning("PLEASE CHECK THE KING [" +
+					kingCheck.toString() + "]");
 		}
 		Piece thisFigure = getInputPosition();
 		Position thisPosition = thisFigure.getPosition();
@@ -47,7 +48,8 @@ public class Game {
 		List<Position> figureAvailableMoves = thisFigure.getAvailableMoves();
 		if (figureAvailableMoves.size() == 0) {
 			board.refresh();
-			ColorPrint.printWarning("NOT AVAILABLE POSITIONS TO MOVE FOR THIS FIGURE");
+			ColorPrint.printWarning("NOT AVAILABLE POSITIONS TO MOVE" +
+					" FOR THIS FIGURE");
 		} else {
 			board.refresh();
 			int newY = askForYPosition("New");
@@ -57,7 +59,8 @@ public class Game {
 			if (thisFigure.isOtherFigureOnWay(oldPosition, newPosition)) {
 				fillBoard.fillEmpties();
 				board.refresh();
-				ColorPrint.printWarning("ANOTHER FIGURE IS DECLARED ON THE WAY");
+				ColorPrint.printWarning("ANOTHER FIGURE IS DECLARED" +
+						" ON THE WAY");
 			} else {
 				moveFigureIfAvailable(oldPosition, x, y, newX, newY);
 				if (!game) {
@@ -98,8 +101,10 @@ public class Game {
 	private void checkKingsAttack() {
 		Piece[][] whitePieces = fillBoard.getWhitePieces();
 		Piece[][] blackPieces = fillBoard.getBlackPieces();
-		boolean whiteCheck = checkAttacks(whitePieces, FillBoard.kingB.getPosition());
-		boolean blackCheck = checkAttacks(blackPieces, FillBoard.kingW.getPosition());
+		boolean whiteCheck = checkAttacks(whitePieces,
+				FillBoard.kingB.getPosition());
+		boolean blackCheck = checkAttacks(blackPieces,
+				FillBoard.kingW.getPosition());
 		kingCheck = whiteCheck ? PieceColor.BLACK :
 			blackCheck ? PieceColor.WHITE :
 			PieceColor.NONE;
@@ -120,7 +125,8 @@ public class Game {
 			for (int j = 0; j < pieces[i].length; j++) {
 				Piece thisPiece = pieces[i][j];
 				if(!(thisPiece instanceof Empty) && thisPiece != null) {
-					List<Position> availablePositions = thisPiece.getAvailableMoves();
+					List<Position> availablePositions =
+						thisPiece.getAvailableMoves();
 					for (Position position : availablePositions) {
 						if (position.getX() == kingPos.getX()) {
 							if (position.getY() == kingPos.getY()) {
@@ -134,47 +140,59 @@ public class Game {
 		return false;
 	}
 
-	private void moveFigureIfAvailable(Position oldPosition, int x, int y, int newX, int newY) {
-		List<Position> availablePositions = boardArr[x - 1][y - 1].getAvailableMoves();
+	private void moveFigureIfAvailable(Position oldPosition, int x, int y,
+			int newX, int newY) {
+		List<Position> availablePositions =
+			boardArr[x - 1][y - 1].getAvailableMoves();
 		Piece thisFigure = boardArr[x - 1][y - 1];
 		boolean incorrectPosition = true;
 
 		for (Position availablePosition : availablePositions) {
-			if (availablePosition.getX() == newX && availablePosition.getY() == newY) {
-				byte isPositionFree = Piece.isPositionFree(new Position(newX, newY), boardArr[x - 1][y - 1]);
+			if (availablePosition.getX() == newX &&
+					availablePosition.getY() == newY) {
+				byte isPositionFree = Piece.isPositionFree(
+						new Position(newX, newY), boardArr[x - 1][y - 1]);
 				if (isPositionFree == 0) {
-					Piece.figureMove(oldPosition, new Position(newX, newY), boardArr[x - 1][y - 1]);
+					Piece.figureMove(oldPosition, new Position(newX, newY),
+							boardArr[x - 1][y - 1]);
 					Piece figure = boardArr[newX - 1][newY - 1];
 					if (figure instanceof King) {
-						FillBoard.setKingPosition(figure.getColor(), newX, newY);
+						FillBoard.setKingPosition(figure.getColor(),
+								newX, newY);
 					}
 
 					checkKingsAttack();
 					if (kingChecksCount == 2) {
-						Piece.figureMove(new Position(newX, newY), oldPosition, boardArr[newX - 1][newY - 1]);
+						Piece.figureMove(new Position(newX, newY),
+								oldPosition, boardArr[newX - 1][newY - 1]);
 						if (figure instanceof King) {
 							FillBoard.setKingPosition(figure.getColor(), x, y);
 						}
 					} else {
 						changeOrder();
 					}
+					if (kingChecksCount == 3) {
+						winnerColor = figure.getColor().toString();
+						game = false;
+					}
 				} else if (isPositionFree == 1) {
 					if (thisFigure.getColor() == PieceColor.WHITE) {
 						if (FillBoard.kingB.getPosition().getX() == newX) {
 							if (FillBoard.kingB.getPosition().getY() == newY) {
-								game = false;
 								winnerColor = "WHITE'S";
+								game = false;
 							}
 						}
 					} else if (thisFigure.getColor() == PieceColor.BLACK) {
 						if (FillBoard.kingW.getPosition().getX() == newX) {
 							if (FillBoard.kingW.getPosition().getY() == newY) {
-								game = false;
 								winnerColor = "BLACK'S";
+								game = false;
 							}
 						}
 					}
-					Piece.figureMove(oldPosition, new Position(newX, newY), boardArr[x - 1][y - 1]);
+					Piece.figureMove(oldPosition, new Position(newX, newY),
+							boardArr[x - 1][y - 1]);
 					changeOrder();
 				} else if (isPositionFree == 2) {
 					fillBoard.fillEmpties();
@@ -206,7 +224,8 @@ public class Game {
 
 	private int askForXPosition(String text) {
 		try {
-			System.out.print("[" + turn.toString() + "]:\t" + text + " number -> ");
+			System.out.print("[" + turn.toString() + "]:\t" + text +
+					" number -> ");
 			int x = sc.nextInt();
 			if (x < 1 || x > 8) {
 				ColorPrint.printWarning("ENTER THE CORRECT POSITION [1:8]");
@@ -233,11 +252,17 @@ public class Game {
 
 	private void printInformation(int x, int y, int newX, int newY) {
 		System.out.println("--------------------------------------");
-		System.out.println("CURRENT - " + boardArr[x - 1][y - 1].getPosition().getX() + " | " + boardArr[x - 1][y - 1].getPosition().getY());
-		for (int i = 0; i < boardArr[x - 1][y - 1].getAvailableMoves().size(); i++) {
-			System.out.println(boardArr[x - 1][y - 1].getAvailableMoves().get(i).getX() + " | " + boardArr[x - 1][y - 1].getAvailableMoves().get(i).getY());
+		System.out.println("CURRENT - " +
+				boardArr[x - 1][y - 1].getPosition().getX() + " | " +
+				boardArr[x - 1][y - 1].getPosition().getY());
+		for (int i = 0; i < boardArr[x - 1][y - 1].getAvailableMoves().size();
+				i++) {
+			System.out.println(boardArr[x - 1][y - 1]
+					.getAvailableMoves().get(i).getX() + " | " +
+					boardArr[x - 1][y - 1].getAvailableMoves().get(i).getY());
 		}
-		System.out.println("POSITION_FREE - " + Piece.isPositionFree(new Position(newX, newY), boardArr[x - 1][y - 1]));
+		System.out.println("POSITION_FREE - " + Piece.isPositionFree(
+					new Position(newX, newY), boardArr[x - 1][y - 1]));
 		System.out.println("--------------------------------------");
 	}
 }

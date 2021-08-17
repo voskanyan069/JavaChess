@@ -56,25 +56,31 @@ public class Rook extends Piece {
     }
 
     @Override
-    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {
+    public boolean isOtherFigureOnWay(Position currentPosition,
+			Position newPosition) {
         currentX = currentPosition.getX() - 1;
         currentY = currentPosition.getY() - 1;
 
         return checkPositions(currentPosition, newPosition);
     }
 
-    private boolean checkPositions(Position currentPosition, Position newPosition) {
+    private boolean checkPositions(Position currentPosition,
+			Position newPosition) {
         if (currentPosition.getX() == newPosition.getX()) {
             if (currentPosition.getY() > newPosition.getY()) {
-                return iterate(newPosition.getY(), currentPosition.getY() - 1, true);
+                return iterate(newPosition.getY(), currentPosition.getY() - 1,
+						true);
             } else if (currentPosition.getY() < newPosition.getY()) {
-                return iterate(currentPosition.getY(), newPosition.getY() - 1, true);
+                return iterate(currentPosition.getY(), newPosition.getY() - 1,
+						true);
             }
         } else if (currentPosition.getY() == newPosition.getY()) {
             if (currentPosition.getX() > newPosition.getX()) {
-                return iterate(newPosition.getX(), currentPosition.getX() - 1, false);
+                return iterate(newPosition.getX(), currentPosition.getX() - 1,
+						false);
             } else if (currentPosition.getX() < newPosition.getX()) {
-                return iterate(currentPosition.getX(), newPosition.getX() - 1, false);
+                return iterate(currentPosition.getX(), newPosition.getX() - 1,
+						false);
             }
         }
         return false;

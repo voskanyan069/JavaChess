@@ -28,20 +28,23 @@ public class Pawn extends Piece {
 
         if (x > 1 && x < 8) {
             if (boardArr[x + move - 1][y - 1] instanceof Empty) {
-                boardArr[x + move - 1][y - 1] = new Empty(new Position(x + move, y), '*');
+                boardArr[x + move - 1][y - 1] =
+					new Empty(new Position(x + move, y), '*');
             }
             positions.add(new Position(x + move, y));
         } if (this.getColor() == PieceColor.WHITE) {
             if (x == 2) {
                 if (boardArr[x + 1][y - 1] instanceof Empty) {
-                    boardArr[x + 1][y - 1] = new Empty(new Position(x + 2, y), '*');
+                    boardArr[x + 1][y - 1] =
+						new Empty(new Position(x + 2, y), '*');
                 }
                 positions.add(new Position(x + 2, y));
             }
         } else if (this.getColor() == PieceColor.BLACK) {
             if (x == 7) {
                 if (boardArr[x - 3][y - 1] instanceof Empty) {
-                    boardArr[x - 3][y - 1] = new Empty(new Position(x - 2, y), '*');
+                    boardArr[x - 3][y - 1] =
+						new Empty(new Position(x - 2, y), '*');
                 }
                 positions.add(new Position(x - 2, y));
             }
@@ -60,7 +63,8 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean isOtherFigureOnWay(Position currentPosition, Position newPosition) {
+    public boolean isOtherFigureOnWay(Position currentPosition,
+			Position newPosition) {
         this.currentPosition = currentPosition;
         this.newPosition = newPosition;
         int move = 1;
@@ -75,17 +79,20 @@ public class Pawn extends Piece {
 
     private boolean onOneStep(int step) {
         if (currentPosition.getX() + step == newPosition.getX()) {
-            return !(boardArr[newPosition.getX() - 1][newPosition.getY() - 1] instanceof Empty);
+            return !(boardArr[newPosition.getX() - 1][newPosition.getY() - 1]
+					instanceof Empty);
         }
         return false;
     }
     
     private boolean onDoubleStep(int step) {
         if (currentPosition.getX() + (2 * step) == newPosition.getX()) {
-            if (!(boardArr[newPosition.getX()][newPosition.getY() - 1] instanceof Empty)) {
+            if (!(boardArr[newPosition.getX()][newPosition.getY() - 1]
+						instanceof Empty)) {
                 return true;
             }
-            return !(boardArr[newPosition.getX() + step][newPosition.getY() - 1] instanceof Empty);
+            return !(boardArr[newPosition.getX() + step]
+					[newPosition.getY() - 1] instanceof Empty);
         }
         return false;
     }
