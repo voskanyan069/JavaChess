@@ -12,6 +12,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+ * Main game class
+ */
 public class Game {
 	private static final Scanner sc = new Scanner(System.in);
 	private final Piece[][] boardArr = new Piece[8][8];
@@ -24,6 +27,9 @@ public class Game {
 	private int kingCheckmateCount = 0;
 	private PieceColor turn = PieceColor.WHITE;
 
+	/*
+	 * Start point for game
+	 */
 	public void start() {
 		FillBoard.board = board;
 		Piece.board = board;
@@ -35,16 +41,23 @@ public class Game {
 		play();
 	}
 
+	/*
+	 * Always recursive call this method to continue game
+	 */
 	private void play() {
 		Piece.boardArr = boardArr;
 		checkKingsAttack();
+		// If no any checks
 		if (kingCheck != PieceColor.NONE) {
 			ColorPrint.printWarning("PLEASE CHECK THE KING [" +
 					kingCheck.toString() + "]");
 		}
+		// Ask for figure to move
 		Piece thisFigure = getInputPosition();
 		Position thisPosition = thisFigure.getPosition();
+		// Get available positions to move for this figure
 		List<Position> figureAvailableMoves = thisFigure.getAvailableMoves();
+		// If no any moves is available
 		if (figureAvailableMoves.size() == 0) {
 			board.refresh();
 			ColorPrint.printWarning("NOT AVAILABLE POSITIONS TO MOVE" +
@@ -53,19 +66,22 @@ public class Game {
 			board.refresh();
 			int x = thisPosition.getX();
 			int y = thisPosition.getY();
+			// Get new position for move
 			int newY = askForYPosition("New");
 			int newX = askForXPosition("New");
 			Position oldPosition = new Position(x, y);
 			Position newPosition = new Position(newX, newY);
+			// If other figures in move path
 			if (thisFigure.isOtherFigureOnWay(oldPosition, newPosition)) {
 				fillBoard.fillEmpties();
 				board.refresh();
 				ColorPrint.printWarning("ANOTHER FIGURE IS DECLARED" +
 						" ON THE WAY");
 			} else {
-				moveFigureIfAvailable(oldPosition, x, y, newX, newY);
+				moveFigureIfAvailable(oldPosition, newPosition);
 				if (!game) {
-					ColorPrint.printSuccess(winnerColor.toString() + "'s WON!!!");
+					ColorPrint.printSuccess(winnerColor.toString() +
+							"'s WON!!!");
 					return;
 				}
 			}
@@ -73,6 +89,9 @@ public class Game {
 		play();
 	}
 
+	/*
+	 * Ask user for figure current position
+	 */
 	private Piece getInputPosition() {
 		int x;
 		int y;
@@ -99,6 +118,9 @@ public class Game {
 		return thisFigure;
 	}
 
+	/*
+	 * Check both kings for check
+	 */
 	private void checkKingsAttack() {
 		Piece[][] whitePieces = fillBoard.getWhitePieces();
 		Piece[][] blackPieces = fillBoard.getBlackPieces();
@@ -125,6 +147,11 @@ public class Game {
 		fillBoard.fillEmpties();
 	}
 
+	/*
+	 * Check given king for attacks
+	 * arg: pieces - All pieces of enemy color
+	 * arg: kingPos - The position of king to check
+	 */
 	private boolean checkAttacks(Piece[][] pieces, Position kingPos) {
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].length; j++) {
@@ -135,7 +162,10 @@ public class Game {
 					for (Position position : availablePositions) {
 						if (position.getX() == kingPos.getX()) {
 							if (position.getY() == kingPos.getY()) {
-								return true;
+								if (!thisPiece.isOtherFigureOnWay(thisPiece
+											.getPosition(), kingPos)) {
+									return true;
+								}
 							}
 						}
 					}
@@ -145,74 +175,85 @@ public class Game {
 		return false;
 	}
 
-	private void moveFigureIfAvailable(Position oldPosition, int x, int y,
-			int newX, int newY) {
+	/*
+	 * Move the given figure to new position if no any conflicts
+	 * arg: oldPosition - Current position of the figure
+	 * arg: newPosition - The new position to move figure
+	 */
+	private void moveFigureIfAvailable(Position oldPosition,
+			Position newPosition) {
+		int x = oldPosition.getX();
+		int y = oldPosition.getY();
+		int newX = newPosition.getX();
+		int newY = newPosition.getY();
 		List<Position> availablePositions =
 			boardArr[x - 1][y - 1].getAvailableMoves();
 		Piece thisFigure = boardArr[x - 1][y - 1];
 		boolean incorrectPosition = true;
 
 		for (Position availablePosition : availablePositions) {
-			if (availablePosition.getX() == newX &&
-					availablePosition.getY() == newY) {
-				byte isPositionFree = Piece.isPositionFree(
-						new Position(newX, newY), boardArr[x - 1][y - 1]);
-				if (isPositionFree == 0) {
-					Piece.figureMove(oldPosition, new Position(newX, newY),
-							boardArr[x - 1][y - 1]);
-					Piece figure = boardArr[newX - 1][newY - 1];
-					if (figure instanceof King) {
-						FillBoard.setKingPosition(figure.getColor(),
-								newX, newY);
-					}
+			if (availablePosition.getX() == newX) {
+				if (availablePosition.getY() == newY) {
+					byte isPositionFree = Piece.isPositionFree(
+							newPosition, boardArr[x - 1][y - 1]);
+					if (isPositionFree == 0) {
+						Piece.figureMove(oldPosition, newPosition,
+								boardArr[x - 1][y - 1]);
+						Piece figure = boardArr[newX - 1][newY - 1];
 
-					checkKingsAttack();
-					if (kingChecksCount == 2) {
-						Piece.figureMove(new Position(newX, newY),
-								oldPosition, boardArr[newX - 1][newY - 1]);
 						if (figure instanceof King) {
-							FillBoard.setKingPosition(figure.getColor(), x, y);
+							FillBoard.setKingPosition(figure.getColor(),
+									newPosition);
 						}
-					} else if (kingChecksCount == 1) {
-						if (figure.getColor() == kingCheck) {
-							Piece.figureMove(new Position(newX, newY),
-									oldPosition, boardArr[newX - 1][newY - 1]);
+
+						checkKingsAttack();
+						if (kingChecksCount == 2) {
+							recoverMove(newPosition, oldPosition, figure);
+						} else if (kingChecksCount == 1) {
+							if (figure.getColor() == kingCheck) {
+								recoverMove(newPosition, oldPosition, figure);
+								ColorPrint.printWarning("NOT CORRECT MOVE" +
+										" BECAUSE KING CHECK [" +
+										kingCheck.toString() + "]");
+							} else {
+								changeOrder();
+							}
 						} else {
 							changeOrder();
 						}
-					} else {
+						if (kingCheckmateCount == 4) {
+							winnerColor = figure.getColor();
+							game = false;
+						}
+					} else if (isPositionFree == 1) {
+						if (thisFigure.getColor() == PieceColor.WHITE) {
+							if (FillBoard.kingB.getPosition().getX() == newX) {
+								if (FillBoard.kingB.getPosition().getY() ==
+										newY) {
+									winnerColor = PieceColor.WHITE;
+									game = false;
+								}
+							}
+						} else if (thisFigure.getColor() == PieceColor.BLACK) {
+							if (FillBoard.kingW.getPosition().getX() == newX) {
+								if (FillBoard.kingW.getPosition().getY() ==
+										newY) {
+									winnerColor = PieceColor.BLACK;
+									game = false;
+								}
+							}
+						}
+						Piece.figureMove(oldPosition, newPosition,
+								boardArr[x - 1][y - 1]);
 						changeOrder();
+					} else if (isPositionFree == 2) {
+						fillBoard.fillEmpties();
+						board.refresh();
+						ColorPrint.printWarning("THE POSITION IS A BUSY");
 					}
-					if (kingCheckmateCount == 4) {
-						winnerColor = figure.getColor();
-						game = false;
-					}
-				} else if (isPositionFree == 1) {
-					if (thisFigure.getColor() == PieceColor.WHITE) {
-						if (FillBoard.kingB.getPosition().getX() == newX) {
-							if (FillBoard.kingB.getPosition().getY() == newY) {
-								winnerColor = PieceColor.WHITE;
-								game = false;
-							}
-						}
-					} else if (thisFigure.getColor() == PieceColor.BLACK) {
-						if (FillBoard.kingW.getPosition().getX() == newX) {
-							if (FillBoard.kingW.getPosition().getY() == newY) {
-								winnerColor = PieceColor.BLACK;
-								game = false;
-							}
-						}
-					}
-					Piece.figureMove(oldPosition, new Position(newX, newY),
-							boardArr[x - 1][y - 1]);
-					changeOrder();
-				} else if (isPositionFree == 2) {
-					fillBoard.fillEmpties();
-					board.refresh();
-					ColorPrint.printWarning("THE POSITION IS A BUSY");
+					incorrectPosition = false;
+					break;
 				}
-				incorrectPosition = false;
-				break;
 			}
 		}
 		if (incorrectPosition) {
@@ -222,18 +263,38 @@ public class Game {
 		}
 	}
 
+	/*
+	 * Recover figure to his previous position
+	 * arg: from - From where move the figure
+	 * arg: to - Where move the figure
+	 * arg: figure - Figure to move
+	 */
+	private void recoverMove(Position from, Position to, Piece figure) {
+		Piece.figureMove(from, to, figure);
+		if (figure instanceof King) {
+			FillBoard.setKingPosition(figure.getColor(), to);
+		}
+	}
+
+	/*
+	 * Check for right turn
+	 * arg: figure - To compare with turn color
+	 */
 	private boolean checkTurn(Piece figure) {
 		return turn == figure.getColor();
 	}
 
+	/*
+	 * Change the order of players
+	 */
 	private void changeOrder() {
-		if (turn == PieceColor.WHITE) {
-			turn = PieceColor.BLACK;
-		} else if (turn == PieceColor.BLACK) {
-			turn = PieceColor.WHITE;
-		}
+		turn = turn.reverse();
 	}
 
+	/*
+	 * Get from user x position
+	 * arg: text - Text to print [can be current/new]
+	 */
 	private int askForXPosition(String text) {
 		try {
 			System.out.print("[" + turn.toString() + "]:\t" + text +
@@ -251,6 +312,10 @@ public class Game {
 		}
 	}
 
+	/*
+	 * Get from user y position
+	 * arg: text - Text to print [can be current/new]
+	 */
 	private int askForYPosition(String text) {
 		System.out.print("[" + turn.toString() + "]:\t" + text + " letter -> ");
 		String yStr = sc.next();
@@ -269,6 +334,9 @@ public class Game {
 		return y;
 	}
 
+	/*
+	 * Print debug information
+	 */
 	private void printInformation(int x, int y, int newX, int newY) {
 		System.out.println("--------------------------------------");
 		System.out.println("CURRENT - " +

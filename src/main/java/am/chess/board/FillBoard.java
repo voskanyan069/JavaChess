@@ -18,6 +18,9 @@ public class FillBoard {
         FillBoard.boardArr = boardArr;
     }
 
+	/*
+	 * Init figures for white player
+	 */
     public void whitePlayersInit() {
         kingW = new King(PieceColor.WHITE, new Position(1, 4));
         Piece queenW = new Queen(PieceColor.WHITE, new Position(1, 5));
@@ -48,6 +51,9 @@ public class FillBoard {
         }
     }
 
+	/*
+	 * Init figures for black player
+	 */
     public void blackPlayersInit() {
         kingB = new King(PieceColor.BLACK, new Position(8, 4));
         Piece queenB = new Queen(PieceColor.BLACK, new Position(8, 5));
@@ -78,6 +84,11 @@ public class FillBoard {
         }
     }
 
+	/*
+	 * Init figure in the board [for both colors]
+	 * arg: pieces - Matrix of it color pieces
+	 * arg: piece - The figure to init
+	 */
     private void initFigure(Piece[][] pieces, Piece piece) {
         try {
             Class<Piece> pieceClass = (Class<Piece>)
@@ -93,6 +104,9 @@ public class FillBoard {
 				InvocationTargetException ignored) {}
 	}
 
+	/*
+	 * Fill empty positions by Empty class
+	 */
     public void fillEmpties() {
         for (int i = 0; i < boardArr.length; i++) {
             for (int j = 0; j < boardArr[0].length; j++) {
@@ -104,6 +118,9 @@ public class FillBoard {
         }
     }
 
+	/*
+	 * Connect white and black figures to one board matrix
+	 */
     public void connectPlayers() {
         for (int i = 0; i < whitePieces.length; i++) {
             for (int j = 0; j < whitePieces[0].length; j++) {
@@ -117,19 +134,30 @@ public class FillBoard {
         }
     }
 
+	/*
+	 * Return white figures matrix
+	 */
 	public Piece[][] getWhitePieces() {
 		return whitePieces;
 	}
 
+	/*
+	 * Return black figures matrix
+	 */
 	public Piece[][] getBlackPieces() {
 		return blackPieces;
 	}
 
-	public static void setKingPosition(PieceColor color, int x, int y) {
+	/*
+	 * Change the king position
+	 * arg: color - The color of a king
+	 * arg: position - New position for a king
+	 */
+	public static void setKingPosition(PieceColor color, Position position) {
 		if (color == PieceColor.WHITE) {
-			kingW.setPosition(new Position(x, y));
+			kingW.setPosition(position);
 		} else {
-			kingB.setPosition(new Position(x, y));
+			kingB.setPosition(position);
 		}
 	}
 }

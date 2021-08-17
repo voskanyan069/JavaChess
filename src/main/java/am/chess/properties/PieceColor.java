@@ -1,5 +1,8 @@
 package am.chess.properties;
 
+/*
+ * Enum class for game color [white, black, none]
+ */
 public enum PieceColor {
     WHITE("WHITE"),
     BLACK("BLACK"),

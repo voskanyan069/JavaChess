@@ -1,5 +1,8 @@
 package am.chess.game;
 
+/*
+ * Prints with colors
+ */
 public class ColorPrint {
     private static final String ANSI_YELLOW = "\u001B[33m";
     private static final String ANSI_GREEN = "\u001B[32m";
