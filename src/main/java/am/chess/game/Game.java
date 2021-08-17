@@ -109,7 +109,6 @@ public class Game {
 		kingCheck = whiteCheck ? PieceColor.BLACK :
 			blackCheck ? PieceColor.WHITE :
 			PieceColor.NONE;
-		System.out.println("before - " + kingCheckmateCount);
 		if (kingCheck != PieceColor.NONE) {
 			if (kingChecksCount == 0) {
 				kingChecksCount = 1;
@@ -123,7 +122,6 @@ public class Game {
 			kingChecksCount = 0;
 			kingCheckmateCount = 0;
 		}
-		System.out.println("after - " + kingCheckmateCount);
 		fillBoard.fillEmpties();
 	}
 
@@ -174,6 +172,13 @@ public class Game {
 								oldPosition, boardArr[newX - 1][newY - 1]);
 						if (figure instanceof King) {
 							FillBoard.setKingPosition(figure.getColor(), x, y);
+						}
+					} else if (kingChecksCount == 1) {
+						if (figure.getColor() == kingCheck) {
+							Piece.figureMove(new Position(newX, newY),
+									oldPosition, boardArr[newX - 1][newY - 1]);
+						} else {
+							changeOrder();
 						}
 					} else {
 						changeOrder();
