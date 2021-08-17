@@ -1,8 +1,8 @@
 package am.chess.properties;
 
 public enum PieceColor {
-    WHITE("white"),
-    BLACK("black"),
+    WHITE("WHITE"),
+    BLACK("BLACK"),
     NONE;
 
     String color;
@@ -17,4 +17,11 @@ public enum PieceColor {
     public String toString() {
         return color;
     }
+
+	public PieceColor reverse() {
+		if (this == WHITE) {
+			return BLACK;
+		}
+		return WHITE;
+	}
 }

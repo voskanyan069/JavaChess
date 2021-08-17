@@ -18,9 +18,10 @@ public class Game {
 	private final Board board = new Board(boardArr);
 	private final FillBoard fillBoard = new FillBoard(boardArr);
 	private boolean game = true;
-	private String winnerColor;
+	private PieceColor winnerColor;
 	private PieceColor kingCheck = PieceColor.NONE;
 	private int kingChecksCount = 0;
+	private int kingCheckmateCount = 0;
 	private PieceColor turn = PieceColor.WHITE;
 
 	public void start() {
@@ -43,8 +44,6 @@ public class Game {
 		}
 		Piece thisFigure = getInputPosition();
 		Position thisPosition = thisFigure.getPosition();
-		int x = thisPosition.getX();
-		int y = thisPosition.getY();
 		List<Position> figureAvailableMoves = thisFigure.getAvailableMoves();
 		if (figureAvailableMoves.size() == 0) {
 			board.refresh();
@@ -52,6 +51,8 @@ public class Game {
 					" FOR THIS FIGURE");
 		} else {
 			board.refresh();
+			int x = thisPosition.getX();
+			int y = thisPosition.getY();
 			int newY = askForYPosition("New");
 			int newX = askForXPosition("New");
 			Position oldPosition = new Position(x, y);
@@ -64,7 +65,7 @@ public class Game {
 			} else {
 				moveFigureIfAvailable(oldPosition, x, y, newX, newY);
 				if (!game) {
-					ColorPrint.printSuccess(winnerColor + " WON!!!");
+					ColorPrint.printSuccess(winnerColor.toString() + "'s WON!!!");
 					return;
 				}
 			}
@@ -108,15 +109,21 @@ public class Game {
 		kingCheck = whiteCheck ? PieceColor.BLACK :
 			blackCheck ? PieceColor.WHITE :
 			PieceColor.NONE;
+		System.out.println("before - " + kingCheckmateCount);
 		if (kingCheck != PieceColor.NONE) {
 			if (kingChecksCount == 0) {
 				kingChecksCount = 1;
 			} else {
+				if (kingChecksCount == 2) {
+					kingCheckmateCount += 1;
+				}
 				kingChecksCount = 2;
 			}
 		} else {
 			kingChecksCount = 0;
+			kingCheckmateCount = 0;
 		}
+		System.out.println("after - " + kingCheckmateCount);
 		fillBoard.fillEmpties();
 	}
 
@@ -171,22 +178,22 @@ public class Game {
 					} else {
 						changeOrder();
 					}
-					if (kingChecksCount == 3) {
-						winnerColor = figure.getColor().toString();
+					if (kingCheckmateCount == 4) {
+						winnerColor = figure.getColor();
 						game = false;
 					}
 				} else if (isPositionFree == 1) {
 					if (thisFigure.getColor() == PieceColor.WHITE) {
 						if (FillBoard.kingB.getPosition().getX() == newX) {
 							if (FillBoard.kingB.getPosition().getY() == newY) {
-								winnerColor = "WHITE'S";
+								winnerColor = PieceColor.WHITE;
 								game = false;
 							}
 						}
 					} else if (thisFigure.getColor() == PieceColor.BLACK) {
 						if (FillBoard.kingW.getPosition().getX() == newX) {
 							if (FillBoard.kingW.getPosition().getY() == newY) {
-								winnerColor = "BLACK'S";
+								winnerColor = PieceColor.BLACK;
 								game = false;
 							}
 						}
@@ -243,9 +250,16 @@ public class Game {
 		System.out.print("[" + turn.toString() + "]:\t" + text + " letter -> ");
 		String yStr = sc.next();
 		int y = Piece.letterToNumber(yStr);
-		if (y < 1 || y > 8) {
-			ColorPrint.printWarning("ENTER THE CORRECT POSITION [A:H]");
-			return askForYPosition(text);
+		if (yStr.equals("pass")) {
+			game = false;
+			winnerColor = turn.reverse();
+			ColorPrint.printSuccess(winnerColor.toString() + "'s WON!!!");
+			System.exit(0);
+		} else {
+			if (y < 1 || y > 8) {
+				ColorPrint.printWarning("ENTER THE CORRECT POSITION [A:H]");
+				return askForYPosition(text);
+			}
 		}
 		return y;
 	}
